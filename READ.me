@@ -1,0 +1,116 @@
+🌟 Omega Nutrición API Platform
+
+🎯 Project Overview
+
+Omega Nutrición API Platform is a Microservices-based system dedicated
+to managing the end-to-end lifecycle of supplement and packaged food production, from raw material procurement to final order
+fulfillment.
+
+This platform is structured into three highly independent services, each managing its own data store to ensure
+scalability and resilience.
+
+🏗️ Architecture and Service Breakdown
+
+The system is composed of three core microservices, each built with FastAPI and operating asynchronously.
+They communicate over HTTP APIs rather than sharing a single database.
+
+
+| Service | Primary Domain | Data Ownership  | API Documentation |
+| ------- | -------------- | --------------- | ----------------- |
+| **1. Production** | Manufacturing and Inputs | Suppliers, Raw Materials, Formulas, Batches, and Quality Control.| http://localhost:8002/docs |
+| **2. StockInventory** | ManagementCurrent Stock Levels |(Products, Materials, Packaging), Warehouse Locations, and Inventory Movements. |http://localhost:8001/docs |
+| **3. AccountSales and Customers**|Customer Records, Orders, Payments |Invoicing, and Balance Tracking. |http://localhost:8000/docs |
+
+💻 Tech Stack
+
+| Component | Technology | Rationale |
+| --------- | ---------- | --------- |
+| API Framework | Python (3.11+) and FastAPI | High-performance, async-native, and automatic OpenAPI documentation.|
+| Data Validation | Pydantic | Enforces clear, consistent data schemas across all service communication.|
+| Databases | PostgresSQL (per service) | Reliable, transactional data storage for independent service data. |
+| Containerization | Docker & Docker Compose | Ensures reproducible and isolated environments for local development. |
+| Inter-service HTTP | httpxAsynchronous |HTTP client for non-blocking communication between services. |
+
+🚀 Getting Started (Local Development)
+
+This project requires GitHub to be installed.
+
+1. Clone the Repository:
+**Bash:**
+git clone https://github.com/ingega/omeganutricion.git
+cd omega_nutricion
+2. creates a .venv
+**Bash:**
+python -m venv .venv  # any name you want
+3. Activate your .venv
+**Bash:**
+source .venv/bin/activate
+4. create a .env file in root folder
+**Bash:**
+touch .env
+5. Create a random secret key
+**Bash:**
+openssl rand -hex 32
+open your .env file and add this two lines:
+SECRET_KEY = # paste the output of your console here
+ALGORITHM="HS256"
+
+6. Run your project
+Bash:
+uvicorn src.services.products.endpoints.main:app --reload --port 8000  # for production microservice
+uvicorn src.services.stocks.endpoints.main:app --reload --port 8001  # for stocks microservice
+uvicorn src.services.customers.endpoints.main:app --reload --port 8002  # for customer microservice
+**Run every service in a different window**
+Once all services are running, you can interact with the documentation via your browser:
+Account Service (Port 8000): http://localhost:8000/docs
+Stock Service (Port 8001): http://localhost:8001/docs
+Production Service (Port 8002): http://localhost:8002/docs
+
+🤝 Project Structure
+
+The codebase is organized into separate directories for each microservice./omeganutricion
+* services/
+    * account/                # The Account Microservice (Orders, Customers)
+        *  README.md
+    * stock/                # The Stock Microservice (Inventory)
+        * README.md
+    * production/           # The Production Microservice (Batches, Materials)
+        * README.md
+    * docker-compose.yml        # Defines all services and databases for local setup
+    * README.md                 # (This File)
+
+👤 Contacts
+Owner: Invercrypto PEB
+Main Collaborator: Edmundo Garcia (ingega@gmail.com)
+
+## 🤝 Contribution & Support
+
+Got comments, feature suggestions, or want to collaborate? We welcome contributions!
+
+**Contact the Team:**
+[omeganutricion2017@gmail.com](mailto:omeganutricion2017@gmail.com)
+
+**Contact tech support:**
+[ingega@gmial.com](mailto:ingega@gmail.com)
+
+**Repository:**
+[github.com/ingega/omeganutricion](https://github.com/ingega/omeganutricion)
+
+
+## 🚧 IMPORTANT: BETA PHASE & DISCLAIMER 🚧
+
+### 1. **BETA PHASE WARNING**
+This project is currently in the **Beta Phase** of development. It is incomplete, highly experimental, and intended **ONLY** for **educational and learning purposes**.
+
+* The code is subject to frequent, breaking changes without notice.
+* Do **NOT** use this software in any live, production, or mission-critical environment.
+* The owner, author, collaborators, counselors or any participant in the project are **NOT** responsible for any data loss, system failure, or other issues resulting from its use.
+
+### 2. **LICENSE & COMMERCIAL RESTRICTION**
+This software is licensed under the **Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC-4.0)** license.
+
+* **Free for Learning:** You are free to view, modify, and share this code for personal study and non-commercial educational use.
+* **COMMERCIAL USE PROHIBITED:** Any form of commercial use, re-sale, incorporation into a commercial product, or charging for access to the API is **explicitly forbidden** without express written permission from the author.
+
+### 3. **LIMITATION OF LIABILITY**
+This software is provided **"AS IS,"** without warranty of any kind. You are **solely responsible** for the correct setup and configuration. Misconfiguration (e.g., incorrect environment settings, security gaps) may lead to errors or loss of information.
