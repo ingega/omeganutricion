@@ -92,6 +92,7 @@ class MaterialRequest(BaseModel):
 
 class PackageMaterialBase(BaseModel):
     name: str
+    price: float
     supplier_id: int
 
 
@@ -105,6 +106,7 @@ class PackageMaterial(PackageMaterialBase):
 
 class PackageMaterialUpdate(BaseModel):
     name: str | None = None
+    price: float | None = None
     supplier_id: int | None = None
 
     model_config = ConfigDict(from_attributes=True)

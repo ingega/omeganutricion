@@ -179,15 +179,15 @@ class PackageMaterialCrud:
     def __init__(self, db: Session):
         self.db = db
 
-    def get_package_material(self, material_id: int):
+    def get_package_material(self, package_material_id: int):
         return self.db.query(models.PackageMaterialDB).filter(
-            models.PackageMaterialDB.material_id == material_id
+            models.PackageMaterialDB.material_id == package_material_id
         ).first()
 
     def get_package_materials(self, skip: int = 0, limit: int = 100):
         return self.db.query(models.PackageMaterialDB).offset(skip).limit(limit).all()
 
-    def create_material(self,
+    def create_package_material(self,
                         package_material: schemas.PackageMaterialCreate
                         ):
         db_package_material = models.PackageMaterialDB(**package_material.model_dump())
@@ -196,7 +196,7 @@ class PackageMaterialCrud:
         self.db.refresh(db_package_material)
         return db_package_material
 
-    def update_material(self, package_material_id: int,
+    def update_package_material(self, package_material_id: int,
                         package_material: schemas.PackageMaterialUpdate
                         ):
         db_package_material = self.db.query(models.PackageMaterialDB).get(package_material_id)
@@ -210,8 +210,8 @@ class PackageMaterialCrud:
 
         return db_package_material
 
-    def delete_material(self, material_id: int):
-        db_package_material = self.db.query(models.PackageMaterialDB).get(material_id)
+    def delete_package_material(self, package_material_id: int):
+        db_package_material = self.db.query(models.PackageMaterialDB).get(package_material_id)
         self.db.delete(db_package_material)
         self.db.commit()
         self.db.refresh(db_package_material)

@@ -55,7 +55,8 @@ class PackageMaterialDB(Base):
     __tablename__ = 'package_material'
     id = Column(Integer, primary_key=True)
     name = Column(String)
-    supplier_id = Column(Integer, ForeignKey('supplier.id'))
+    price = Column(Float)
+    supplier_id = Column(Integer, ForeignKey("supplier.id"))
 
     # foreign keys
     supplier = relationship("SupplierDB", back_populates='package_material')
