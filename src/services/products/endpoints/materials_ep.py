@@ -1,5 +1,5 @@
 # src/services/products/endpoints/materials_ep.py
-from fastapi import Depends, Form, APIRouter
+from fastapi import Depends, Form, APIRouter, HTTPException
 from typing import List, Annotated
 from sqlalchemy.orm import Session
 
@@ -10,6 +10,7 @@ from src.services.products.endpoints.users_ep import ROLE_EXCEPTION
 
 
 router = APIRouter()
+
 
 @router.get("/")
 async def root():
