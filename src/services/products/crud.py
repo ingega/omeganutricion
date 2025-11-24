@@ -112,7 +112,7 @@ class SupplierCrud:
                         supplier: schemas.SupplierUpdate,
                         supplier_id: int
                         ):
-        db_supplier = self.db.query(models.SupplierDB).get(supplier_id)
+        db_supplier = self.db.get(models.SupplierDB, supplier_id)
         update_data = supplier.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(db_supplier, key, value)
@@ -156,7 +156,7 @@ class MaterialCrud:
                         material: schemas.MaterialUpdate,
                         material_id: int
                         ):
-        db_material = self.db.query(models.MaterialDB).get(material_id)
+        db_material = self.db.get(models.MaterialDB, material_id)
         update_data = material.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(db_material, key, value)
@@ -181,7 +181,7 @@ class PackageMaterialCrud:
 
     def get_package_material(self, package_material_id: int):
         return self.db.query(models.PackageMaterialDB).filter(
-            models.PackageMaterialDB.material_id == package_material_id
+            models.PackageMaterialDB.id == package_material_id
         ).first()
 
     def get_package_materials(self, skip: int = 0, limit: int = 100):
@@ -199,7 +199,7 @@ class PackageMaterialCrud:
     def update_package_material(self, package_material_id: int,
                         package_material: schemas.PackageMaterialUpdate
                         ):
-        db_package_material = self.db.query(models.PackageMaterialDB).get(package_material_id)
+        db_package_material = self.db.get(models.PackageMaterialDB, package_material_id)
         update_data = package_material.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(db_package_material, key, value)
@@ -211,10 +211,9 @@ class PackageMaterialCrud:
         return db_package_material
 
     def delete_package_material(self, package_material_id: int):
-        db_package_material = self.db.query(models.PackageMaterialDB).get(package_material_id)
+        db_package_material = self.db.get(models.PackageMaterialDB, package_material_id)
         self.db.delete(db_package_material)
         self.db.commit()
-        self.db.refresh(db_package_material)
 
         return db_package_material
 
@@ -241,7 +240,7 @@ class ProductCrud:
                        product: schemas.ProductUpdate,
                        product_id: int
                        ):
-        db_product = self.db.query(models.ProductDB).get(product_id)
+        db_product = self.db.get(models.ProductDB, product_id)
         update_data = product.model_dump(exclude_unset=True)
         for key, value in update_data.items():
             setattr(db_product, key, value)

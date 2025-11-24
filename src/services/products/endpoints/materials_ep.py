@@ -198,7 +198,7 @@ def read_package_material(package_material_id: int,
 
 @router.patch("/package-materials/{package_material_id}", response_model=schemas.PackageMaterialUpdate)
 def partial_update_package_material(
-        material_id: int,
+        package_material_id: int,
         db: Session = Depends(get_db),
         current_user: schemas.User = Depends(get_current_user),
         name: Annotated[str | None, Form()] = None,
@@ -208,7 +208,7 @@ def partial_update_package_material(
     """
     **This endpoint update an individual material by id.**
 
-    :param material_id: **the id of the material -> mandatory**
+    :param package_material_id: **the id of the packaging material -> mandatory**
     :param db: **Session with db connection -> mandatory**
     :param name: **the name of the material -> optional**
     :param price: **the price of the material -> optional**
@@ -219,20 +219,20 @@ def partial_update_package_material(
     """
     if current_user.auth_level < 5:
         raise ROLE_EXCEPTION
-    material_update = {}
+    package_material_update = {}
     if name:
-        material_update['name'] = name
+        package_material_update['name'] = name
     if price:
-        material_update['price'] = float(price)
+        package_material_update['price'] = float(price)
     if supplier_id:
-        material_update['supplier_id'] = int(supplier_id)
+        package_material_update['supplier_id'] = int(supplier_id)
 
-    material_update_data = schemas.MaterialUpdate(**material_update)
-    material_crud = crud.MaterialCrud(db=db)
+    package_material_update_data = schemas.PackageMaterialUpdate(**package_material_update)
+    package_material_crud = crud.PackageMaterialCrud(db=db)
 
-    return material_crud.update_material(
-        material=material_update_data,
-        material_id=material_id
+    return package_material_crud.update_package_material(
+        package_material=package_material_update_data,
+        package_material_id=package_material_id
     )
 
 
@@ -448,7 +448,7 @@ def partial_update_product(
     product_crud = crud.ProductCrud(db=db)
     return product_crud.update_product(product=product, product_id=product_id)
 
-@router.delete("/products/{product_id}", response_model=schemas.Supplier)
+@router.delete("/products/{product_id}", response_model=schemas.Product)
 def delete_product(product_id: int,
                     current_user: schemas.User = Depends(get_current_user),
                     db: Session = Depends(get_db)):
@@ -456,7 +456,7 @@ def delete_product(product_id: int,
         **This endpoint delete an individual product by id.**
         :param product_id: **the id of the product -> mandatory**
         :param db: **Session with db connection -> mandatory**
-        :return: **a 200 response if successful, and the data of an individual supplier.**
+        :return: **a 200 response if successful, and the data of the deleted product.**
         **Authorization level: 6**
         """
     if current_user.auth_level < 6:

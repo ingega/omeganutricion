@@ -139,7 +139,7 @@ class SupplierUpdate(BaseModel):
     supplier_address: str | None = None
     phone_1: str | None = None
     phone_2: str | None = None
-    deliver: bool | None = False
+    deliver: bool | None = None
 
 
 # ------ Product  -------------- #
